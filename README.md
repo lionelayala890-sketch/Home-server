@@ -28,10 +28,6 @@ flowchart TD
 | Dell OptiPlex 7040 | Proxmox host | ~8 GB RAM; ~1.8 TB HDD | Running |
 | Raspberry Pi | Original Pi-hole | Existing DNS installation | Operational per last check |
 | AT&T gateway | Main router / DHCP | `192.168.1.254`, `/24` | Active |
-| TP-Link TL-R600VPN v4 | Future lab router | Not yet integrated | Deferred |
-| Zyxel GS1200-8 | Future managed switch | Not yet integrated | Deferred |
-| Cisco RV130W | Future router/security learning | Not yet integrated | Deferred |
-| Bambu Lab A1 Mini | 3D printer | Physical workspace equipment; not network infrastructure | Separate |
 
 ## IP address inventory
 
@@ -74,10 +70,10 @@ flowchart TD
 - [x] Configure host LAN IP (`192.168.1.20`)
 - [x] Create Pi-hole VM 101 (`192.168.1.21`)
 - [x] Install Docker / Pi-hole and confirm dashboard access
-- [ ] Confirm Teleporter settings import and list parity on both instances
-- [ ] Confirm DNS and blocking tests on both instances
-- [ ] Confirm household DNS/DHCP approach and perform controlled cutover, if desired
-- [ ] Verify Proxmox VM 101 autostart and Docker restart behavior
+- [x] Confirm Teleporter settings import and list parity on both instances
+- [x] Confirm DNS and blocking tests on both instances
+- [x] Confirm household DNS/DHCP approach and perform controlled cutover, if desired
+- [x] Verify Proxmox VM 101 autostart and Docker restart behavior
 - [ ] Configure backups to a **separate physical disk**, and test a restore
 - [ ] Verify whether VM 100 is still present, stopped, or deleted
 - [ ] Decide whether to add SSD and more RAM

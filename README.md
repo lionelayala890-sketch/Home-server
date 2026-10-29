@@ -1,4 +1,4 @@
-# Home Lab | Proxmox, Pi-hole & Network Administration
+# Home Lab | Proxmox, Pi-hole, Jellyfin & Media Storage
 
 > Personal home server and cybersecurity learning lab. This repository documents architecture, operating procedures, configuration decisions, troubleshooting, and future improvements.
 
@@ -6,9 +6,9 @@
 
 This homelab uses a Dell OptiPlex 7040 running Proxmox VE to host Linux virtual machines and network services. The initial production-like workload is a dedicated Pi-hole DNS VM, alongside an existing Raspberry Pi Pi-hole instance during migration/testing. The goal is to learn virtualization, Linux administration, DNS, networking, backup/recovery, and eventually security segmentation.
 
-**Current phase:** Initial Proxmox configuration and dual Pi-hole validation. Household-wide DNS cutover and VM 100 disposition have **not been verified complete**.
+**Current phase:** DNS and media homelab, with backup, hardware-upgrade, and VPN planning. See the dated update below. Original setup notes and completion checkboxes are retained as historical records, not fresh verification.
 
-## Architecture
+## Architecture (previously documented DNS topology)
 
 ```mermaid
 flowchart TD
@@ -20,6 +20,36 @@ flowchart TD
 ```
 
 > Diagram shows logical network membership, not physical cable arrangement. Both Pi-holes should remain reachable before changing household DNS settings.
+
+
+## Current homelab — 2026-10-28
+
+The owner reports Pi-hole, a Jellyfin LXC, a MakeMKV media-ripping VM, and shared movie storage on the Proxmox homelab. No live host or guest configuration was inspected for this update. Earlier IPs, versions, and hardware figures are historical. Earlier migration checklists disagree on Teleporter completion; current migration and household DNS cutover remain unverified.
+
+| Component | Role / status | Unverified details |
+| --- | --- | --- |
+| Pi-hole | DNS filtering; previously documented in VM 101 with Docker and on Raspberry Pi | Current health, migration parity, client DNS selection, backup coverage, autostart, and Raspberry Pi redundancy |
+| Jellyfin LXC | Owner-reported movie-library service | CT ID, address, OS/version, resources, privilege mode, startup order, mounts, UID/GID mapping, hardware acceleration |
+| MakeMKV VM | Owner-reported media-ripping service | VM ID, address, OS/version, resources, optical-drive attachment, output path; do not assume this is VM 100 |
+| Shared movie storage | Owner-reported shared library for ripping and playback | Physical disk, capacity, filesystem, free space, host/guest paths, sharing method, permissions, backup inclusion |
+| SSD / RAM upgrades | Planned improvements | Compatibility, target capacities, purchase/install status, migration method |
+| VPN access | Proposed private remote access | Product, endpoint, routes, DNS, authentication, allowed services, deployment status; not claimed active |
+
+### Media workflow
+
+MakeMKV VM → shared movie storage → Jellyfin LXC → playback clients.
+
+This is a logical workflow, not a verified mount or network diagram. Verify the ripping output and Jellyfin library reach the same dataset. Proposed practice: stage incomplete rips separately, check completed files, then publish them to the library. Where practical, allow MakeMKV to write movies and Jellyfin to read them; keep Jellyfin's writable configuration, metadata, and cache separate. Actual permissions remain unverified.
+
+### Hardware and remote-access plans
+
+- Verify SSD form factor/interface, connections, capacity, and storage layout before selecting or migrating host/active guest disks. The existing HDD role remains historical until rechecked.
+- Verify installed RAM modules, supported capacity, free slots, and guest demand before selecting an upgrade. No new installed capacity is claimed.
+- Validate recoverable backups before hardware work; test guest boot, DNS, mounts, ripping, and playback afterward.
+- Evaluate VPN access with only required services reachable. Provider, endpoint, port requirements, split/full-tunnel routing, and remote DNS behavior remain undecided.
+- Keep management and DNS services off public port forwards as described above. Keep VPN keys, enrollment tokens, client profiles, and recovery material private.
+
+See the [inventory](docs/inventory.md), [runbook](docs/runbook.md), and [backup plan](docs/backups.md) for verification and recovery tasks.
 
 ## Hardware inventory
 

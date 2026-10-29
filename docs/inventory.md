@@ -2,7 +2,7 @@
 
 **Last documented:** 2026-10-26. Re-check dynamic states before relying on this sheet.
 
-## Confirmed network settings
+## Previously confirmed network settings
 
 | Parameter | Value |
 | --- | --- |
@@ -12,7 +12,7 @@
 | DHCP server | AT&T gateway (enabled) |
 | DHCP pool | `192.168.1.64`–`192.168.1.253` |
 
-## Hosts and guests
+## Previously documented hosts and guests
 
 | Name | Role | IPv4 | OS / software | Resources | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -40,3 +40,19 @@
 - [x] Latest VM 101 configuration and backup status
 - [x] Whether the AT&T gateway can advertise custom client DNS servers
 - [ ] Teleporter migration completion
+
+## Current workload inventory — 2026-10-28
+
+See the [current homelab table](../README.md#current-homelab--2026-10-28) for owner-reported workloads and unknown settings. No live configuration was inspected. Existing checked items remain historical; migration checklist discrepancies do not establish current completion.
+
+### Facts to record after verification
+
+- Pi-hole: current VM/Raspberry Pi health, software versions, client DNS selection, Teleporter parity, startup behavior, and actual backup/restore evidence.
+- Jellyfin LXC: CT ID, address, OS/version, CPU/RAM/disk allocation, privilege mode, startup order, media mount source/target, UID/GID mapping, and acceleration status.
+- MakeMKV VM: VM ID (not assumed to be 100), address, OS/version, CPU/RAM/disk allocation, optical-drive attachment, and ripping destination.
+- Shared movies: disk identity/capacity, filesystem, free space, host/guest paths, mount/share method, ownership, access modes, and backup coverage.
+- SSD: compatible form factor/interface, target size, purchase/install state, guest migration and rollback plan.
+- RAM: installed modules, supported maximum, available slots, target size, purchase/install state.
+- Proposed VPN: product, endpoint location, authorized services, routes, client DNS, authentication method, revocation, and deployment state.
+
+Record sanitized settings only; credentials, keys, backup archives, and VPN profiles belong in private storage.

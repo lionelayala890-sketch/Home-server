@@ -8,19 +8,52 @@ This homelab uses a Dell OptiPlex 7040 running Proxmox VE to host Linux virtual 
 
 **Current phase:** DNS and media homelab, with backup, hardware-upgrade, and VPN planning. See the dated update below. Original setup notes and completion checkboxes are retained as historical records, not fresh verification.
 
-## Architecture (previously documented DNS topology)
+## Network architecture
 
 ```mermaid
-flowchart TD
-    GW[AT&T Gateway\n192.168.1.254 /24\nDHCP: .64–.253]
-    GW --> PVE[Proxmox VE - Home\n192.168.1.20]
-    GW --> RPI[Raspberry Pi\nOriginal Pi-hole\n192.168.1.179]
-    PVE --> VM101[VM 101: Ubuntu / Docker / Pi-hole\n192.168.1.21]
-    PVE -. status to verify .-> VM100[VM 100: Ubuntu Server\n192.168.1.183 via DHCP]
+flowchart TB
+    GW["AT&T gateway<br/>192.168.1.254 /24<br/>DHCP: .64-.253"]
+    LAN["Trusted LAN<br/>192.168.1.0/24"]
+    CLIENT["LAN clients<br/>DNS and media playback"]
+    RPI["Raspberry Pi: original Pi-hole<br/>192.168.1.179<br/>Current redundancy unverified"]
+
+    subgraph HOST["Dell OptiPlex 7040 - Proxmox host"]
+        PVE["Proxmox Home<br/>192.168.1.20"]
+        BRIDGE["vmbr0<br/>Previously documented LAN bridge"]
+        DNS["VM 101: Ubuntu / Docker / Pi-hole<br/>192.168.1.21<br/>Current state unverified"]
+        JF["Jellyfin LXC<br/>CT ID and address unverified"]
+        MKV["MakeMKV ripping VM<br/>VM ID and address unverified"]
+        OLD["VM 100: Ubuntu Server<br/>192.168.1.183 via DHCP<br/>Retained / stopped / deleted: verify"]
+        PVE --- BRIDGE
+        BRIDGE --- DNS
+        BRIDGE --- JF
+        BRIDGE --- MKV
+        BRIDGE -. "presence unverified" .-> OLD
+    end
+
+    STORE[("Shared movie storage<br/>Disk, location, paths and sharing method unverified")]
+    BACKUP[("Planned backup destination<br/>Separate disk / NAS; coverage unverified")]
+    REMOTE["Remote client"]
+    VPN["Proposed VPN endpoint<br/>Product and placement undecided"]
+
+    GW --- LAN
+    LAN --- BRIDGE
+    LAN --- RPI
+    LAN --- CLIENT
+    CLIENT -. "DNS choice / cutover unverified" .-> DNS
+    CLIENT -. "DNS choice / redundancy unverified" .-> RPI
+    MKV -->|"Movie output: intended workflow"| STORE
+    STORE -->|"Library access: mount unverified"| JF
+    JF -->|"Media playback"| CLIENT
+    HOST -. "planned guest backups" .-> BACKUP
+    STORE -. "planned movie backup; verify inclusion" .-> BACKUP
+    REMOTE -. "proposed encrypted access" .-> VPN
+    VPN -. "restricted access; routes undecided" .-> LAN
 ```
 
-> Diagram shows logical network membership, not physical cable arrangement. Both Pi-holes should remain reachable before changing household DNS settings.
+**Legend:** Solid lines show documented logical membership or owner-reported media roles; they do not certify live configuration. Dotted arrows mark proposed or unverified relationships. Arrows labeled movie output, library access, or playback show data flow, not physical cables. The shared storage and VPN endpoint are outside the host group because their physical placement is unverified.
 
+**Verification limits:** All addresses and `vmbr0` are retained from earlier records. Guest bridge attachment, current service health, DNS selection, media mounts, and permissions require checking. MakeMKV is not assumed to be VM 100. VPN access and separate-disk backups are plans, not deployed services. Keep both Pi-holes reachable before changing household DNS settings, and do not expose management or DNS ports directly to the public internet.
 
 ## Current homelab — 2026-10-28
 

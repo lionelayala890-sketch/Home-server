@@ -1,30 +1,35 @@
 # Inventory and Configuration Reference
 
-**Last documented:** 2026-10-26. Re-check dynamic states before relying on this sheet.
+**Last updated:** 2026-11-04. Current status below is owner-reported and was not independently verified against the live host. Re-check dynamic states before relying on this sheet.
 
-## Previously confirmed network settings
+> Public repo note: exact local IPs, subnet ranges, internal hostnames, management URLs, and Tailscale route details are intentionally omitted. Keep them in private notes.
 
-| Parameter | Value |
-| --- | --- |
-| Router / default gateway | `192.168.1.254` |
-| IPv4 network | `192.168.1.0/24` |
-| Netmask | `255.255.255.0` |
-| DHCP server | AT&T gateway (enabled) |
-| DHCP pool | `192.168.1.64`–`192.168.1.253` |
+## Latest verified guest and service inventory — 2026-11-04
 
-## Previously documented hosts and guests
+| Guest / component | Role | Current status |
+| --- | --- | --- |
+| VM 100 | Ubuntu Server | Shut down. Not an active Pi-hole server. |
+| VM 103 | Not specified | Shut down. No active workload reported. |
+| CT 104 | Media ripper | Owner-reported current role. |
+| CT 102 | Jellyfin media server | Operational, owner-reported. |
+| Tailscale gateway | Remote-access and subnet-routing gateway | Operational, owner-reported. |
 
-| Name | Role | IPv4 | OS / software | Resources | Status |
-| --- | --- | --- | --- | --- | --- |
-| Home | OptiPlex hypervisor | `192.168.1.20` | Proxmox VE 9.2.2 | ~8 GB RAM, ~1.8 TB HDD | Active at last verification |
-| Raspberry Pi | Original DNS | `192.168.1.179` | Pi-hole | Unknown | Operational at last verification |
-| VM 101 (`pihole-dns`) | New DNS | `192.168.1.21` | Ubuntu Server + Docker + Pi-hole | Originally planned 1.5 GB RAM, 16 GB disk; verify actual | Active/healthy at last verification |
-| VM 100 (`ubuntu-server`) | General Linux VM | `192.168.1.183` | Ubuntu Server | Originally 2 GB RAM, 32 GB disk | Shut Down at last verification |
+### Hardware
 
-## Physical network hardware reserved for later
+- No RAM upgrade has been installed.
+- No SSD/NVMe upgrade has been installed.
+- Existing hardware configuration remains in use.
 
-- TP-Link TL-R600VPN, hardware V4 — not in use
-- Zyxel GS1200-8 managed switch — not in use
+### Tailscale and remote access
+
+- Subnet routing is reported operational.
+- Proxmox and other home-server services are reported accessible remotely through Tailscale.
+- Advertised subnet routes are reported approved.
+- Exact route prefixes and device/access details are omitted from this public inventory. Keep auth keys, node keys, API credentials, and client profiles private.
+
+## Earlier network details
+
+Earlier revisions recorded exact private-network addresses and equipment information. Those values have been removed from this public copy. Retain any still-needed operational addresses and configuration only in private documentation; do not infer current network settings from historical Git commits.
 
 ## Change record template
 
@@ -32,27 +37,12 @@
 | --- | --- | --- | --- | --- | --- |
 | YYYY-MM-DD | Example | Example | Example | Example | Example |
 
-## Outstanding facts to verify
+## Facts to verify during future maintenance
 
-- [x] Raspberry Pi DHCP reservation for `.179`
-- [ ] Exact installed RAM model/capacity and whether upgrades are supported
-- [x] VM 100 current state
-- [x] Latest VM 101 configuration and backup status
-- [x] Whether the AT&T gateway can advertise custom client DNS servers
-- [ ] Teleporter migration completion
+- Confirm current VM and container states in Proxmox before changes; VM 100 and VM 103 are reported shut down as of November 4, 2026.
+- Confirm Jellyfin operation and media-ripper workflow after maintenance.
+- Confirm Tailscale gateway health, approved route status, access controls, and device authorization without recording secrets here.
+- Record actual backup scope, schedule, destination, and restore-test results; do not publish backup archives or credentials.
+- Reassess storage/RAM upgrade needs only after inspecting the current hardware. No such upgrades are currently reported installed.
 
-## Current workload inventory — 2026-10-28
-
-See the [current homelab table](../README.md#current-homelab--2026-10-28) for owner-reported workloads and unknown settings. No live configuration was inspected. Existing checked items remain historical; migration checklist discrepancies do not establish current completion.
-
-### Facts to record after verification
-
-- Pi-hole: current VM/Raspberry Pi health, software versions, client DNS selection, Teleporter parity, startup behavior, and actual backup/restore evidence.
-- Jellyfin LXC: CT ID, address, OS/version, CPU/RAM/disk allocation, privilege mode, startup order, media mount source/target, UID/GID mapping, and acceleration status.
-- MakeMKV VM: VM ID (not assumed to be 100), address, OS/version, CPU/RAM/disk allocation, optical-drive attachment, and ripping destination.
-- Shared movies: disk identity/capacity, filesystem, free space, host/guest paths, mount/share method, ownership, access modes, and backup coverage.
-- SSD: compatible form factor/interface, target size, purchase/install state, guest migration and rollback plan.
-- RAM: installed modules, supported maximum, available slots, target size, purchase/install state.
-- Proposed VPN: product, endpoint location, authorized services, routes, client DNS, authentication method, revocation, and deployment state.
-
-Record sanitized settings only; credentials, keys, backup archives, and VPN profiles belong in private storage.
+Record sanitized settings only; credentials, keys, backup archives, VPN/Tailscale profiles, and exact network routes belong in private storage.

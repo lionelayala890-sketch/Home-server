@@ -8,8 +8,6 @@ This homelab uses a Dell OptiPlex 7040 running Proxmox VE to host virtual machin
 
 ## Latest Verified Infrastructure Updates — November 4, 2026
 
-These owner-provided updates supersede older or conflicting information in this document. The statuses below are reported by the owner; they have not been independently checked against the live Proxmox or Tailscale configuration.
-
 ### Proxmox guests and services
 
 | Guest | Current role / status |
@@ -54,7 +52,7 @@ flowchart TB
     TS -. "approved subnet routes; ranges omitted" .-> LAN
 ```
 
-This is a high-level, owner-reported logical diagram, not a live configuration export. It intentionally excludes private addresses, route ranges, device names, and credentials.
+This is a diagram of the current network stack within the home server
 
 ## Hardware inventory
 
@@ -64,16 +62,7 @@ This is a high-level, owner-reported logical diagram, not a live configuration e
 | Raspberry Pi | Previously documented DNS device | Current role/status not re-verified in latest update |
 | ISP router and local network equipment | Gateway / LAN | Exact model, addresses, and configuration kept private |
 
-No RAM or SSD/NVMe upgrade has been installed, per the November 4, 2026 update.
-
-## Security and operations notes
-
-- Do not forward Proxmox management, SSH, Jellyfin administration, DNS, or other management services directly to the public internet.
-- Use Tailscale access controls to limit which users and devices can reach the subnet and services; revoke devices that are no longer trusted.
-- Keep Tailscale auth keys, node keys, API credentials, recovery material, and client configuration private. Do not commit route CIDRs or sensitive access policy details to this public repository.
-- Keep vulnerable lab systems isolated from the family LAN and production services.
-- Maintain and test backups independently of the live server and shared media storage.
-- Treat the status in this document as owner-reported; verify live state before making operational changes.
+No RAM or SSD/NVMe upgrade has been installed, November 4, 2026 update.
 
 ## Documentation index
 
@@ -81,11 +70,3 @@ No RAM or SSD/NVMe upgrade has been installed, per the November 4, 2026 update.
 - [Service runbook](docs/runbook.md)
 - [Backup and restore plan](docs/backups.md)
 - [Change log](docs/changelog.md)
-
-## Public repository safety
-
-This repository is public. Do not add exact private IP addresses, subnet route ranges, internal hostnames, public IPs, service URLs, credentials, Tailscale keys/tokens, VPN profiles, or backup archives. If any secret was previously committed, revoke or rotate it; deleting it from the latest revision does not remove it from Git history.
-
-## License
-
-Documentation is for personal educational use. Add a license if you intend to permit reuse.
